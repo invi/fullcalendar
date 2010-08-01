@@ -374,7 +374,9 @@ $.fn.fullCalendar = function(options) {
 		}
 		
 		// Fetch from a particular source. Append to the 'events' array
+		var lastfetchid = 0;
 		function fetchEventSource(src, callback) {
+			var id=++lastfetchid;
 			var prevViewName = view.name,
 				prevDate = cloneDate(date),
 				reportEvents = function(a) {
@@ -391,6 +393,7 @@ $.fn.fullCalendar = function(options) {
 						}
 				},
 				reportEventsAndPop = function(a) {
+					if (id != lastfetchid) return;
 					reportEvents(a);
 					popLoading();
 				};
