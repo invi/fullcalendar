@@ -617,10 +617,17 @@ function Agenda(element, options, methods, viewName) {
 	}
 	
 	function slotSegHtml(event, seg, className) {
-		return "<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;top:" + seg.top + "px;left:" + seg.left + "px'>" +
-			"<a" + (event.url ? " href='" + htmlEscape(event.url) + "'" : '') + ">" +
+		if (event.color) {
+			color = " style='background-color:" + event.color + ";border-color:" + event.color + "' "; 
+			border = ";border-color:" + event.color; 
+		} else {
+			color = "";
+			border = "";
+		}
+		return "<div class='" + className + event.className.join(' ') + "' style='position:absolute;z-index:8;top:" + seg.top + "px;left:" + seg.left + "px" + border + "'>" +
+			"<a" + (event.url ? " href='" + htmlEscape(event.url) + "'" : '') + color + ">" +
 				"<span class='fc-event-bg'></span>" +
-				"<span class='fc-event-time'>" + htmlEscape(formatDates(event.start, event.end, view.option('timeFormat'))) + "</span>" +
+				"<span class='fc-event-time' " + color + ">" + htmlEscape(formatDates(event.start, event.end, view.option('timeFormat'))) + "</span>" +
 				"<span class='fc-event-title'>" + htmlEscape(event.title) + "</span>" +
 			"</a>" +
 			((event.editable || event.editable === undefined && options.editable) && !options.disableResizing && $.fn.resizable ?
